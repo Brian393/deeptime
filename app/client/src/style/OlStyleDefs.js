@@ -109,7 +109,7 @@ export function postEditLayerStyle() {
       image: new OlCircle({
         radius: 27,
         stroke: new OlStroke({
-          color: "red",
+          color: 'red',
           width: 3
         }),
         fill: new OlFill({
@@ -290,7 +290,10 @@ export function baseStyle(config) {
          * Style used for line geometry type.
          */
         case 'LineString':
-        case 'MultiLineString': {
+        case 'MultiLineString': 
+        case 'Polygon': 
+        case 'MultiPolygon':
+        {
           const style = new OlStyle({
             stroke: new OlStroke({
               color:
@@ -306,6 +309,14 @@ export function baseStyle(config) {
                   ? strokeWidth(feature.get(stylePropFnRef.strokeWidth))
                   : strokeWidth || 4,
               lineDash: lineDash || [6]
+            }),
+            fill: new OlFill({
+              color:
+                stylePropFnRef &&
+                stylePropFnRef.fillColor &&
+                fillColor instanceof Function
+                  ? fillColor(feature.get(stylePropFnRef.fillColor))
+                  : fillColor || 'rgba(129, 56, 17, 0.7)'
             })
           });
 
@@ -371,7 +382,7 @@ export function colorMapStyle(layerName, colorField) {
 }
 export function htmlLayerStyle() {
   const styleFunction = feature => {
-    const group  = feature.get('group');
+    const group = feature.get('group');
 
     if (group === store.state.activeLayerGroup.navbarGroup) {
       return new OlStyle({
@@ -380,9 +391,9 @@ export function htmlLayerStyle() {
           scale: 1,
           opacity: 1
         })
-      })
+      });
     } else {
-      return []
+      return [];
     }
   };
   return styleFunction;
@@ -481,6 +492,11 @@ export const layersStylePropFn = {
     circleRadiusFn: propertyValue => {
       return getRadiusValue(propertyValue, 1, 7);
     },
+    fillColor: propertyValue => {
+      return propertyValue;
+    }
+  },
+  us_2: {
     fillColor: propertyValue => {
       return propertyValue;
     }
