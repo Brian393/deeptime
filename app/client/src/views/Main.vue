@@ -42,7 +42,7 @@
           ><v-icon small>fas fa-home</v-icon></v-btn
         >
 
-        <v-spacer></v-spacer><v-spacer></v-spacer>
+        <v-spacer></v-spacer>
         <v-menu
           offset-y
           v-model="dropdownMenu"
