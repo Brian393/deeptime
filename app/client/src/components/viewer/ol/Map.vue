@@ -374,7 +374,7 @@ export default {
       }).extend([attribution]),
       view: new View({
         center: me.center || [0, 0],
-        minResolution: 0,
+        minResolution: 0.5,
         maxResolution: 64000
       })
     });
@@ -846,7 +846,7 @@ export default {
       // for using the spotlights should be shown based on zoom level.
       this.map.on('moveend', () => {
         const resolutionLevel = this.map.getView().getResolution();
-        if (resolutionLevel <= 20) {
+        if (resolutionLevel <= 0) {
           this.spotlightMessage = true;
         } else {
           this.spotlightMessage = false;
